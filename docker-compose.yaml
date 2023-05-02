@@ -3,48 +3,11 @@ services:
   minecraft-exporter:
     build:
       context: .
-    container_name: minecraft_exporter
-    image: minecraft_exporter
     environment:
       RCON_HOST: 
-      RCON_PORT: 25575
+      RCON_PORT:
       RCON_PASSWORD:
-      PAPER_SERVER: True
-      FORGE_SERVER: False
-      DYNMAP_ENABLED: True
-      TZ: Asia/Seoul
     ports:
-      - "8000:8000"
+    - 9700:8000
     volumes:
-      - ./world:/world:ro
-    restart: always
-
-  prometheus:
-    container_name: prometheus
-    image: prom/prometheus
-    environment:
-      TZ: Asia/Seoul
-    ports:
-      - "9090:9090"
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-    depends_on:
-      - minecraft-exporter
-    links:
-      - minecraft-exporter:minecraft-exporter
-    restart: always
-
-  grafana:
-    container_name: grafana
-    image: grafana/grafana
-    environment:
-      TZ: Asia/Seoul
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./grafana/data:/var/lib/grafana
-    depends_on:
-      - prometheus
-    links:
-      - prometheus:prometheus
-    restart: always
+    - ./world:/world:ro
